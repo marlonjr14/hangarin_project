@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="content">
+  <div class="container-fluid">
+    <h4 class="page-title">Tasks</h4>
+    <div class="row">
+      {% for task in tasks %}
+      <div class="col-md-6 mb-3">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">{{ task.title }}</div>
+            <div class="card-category">{{ task.category.name }} | {{ task.priority.name }}</div>
+          </div>
+          <div class="card-body">
+            <p>{{ task.description }}</p>
+            <p><b>Status:</b> {{ task.status }}</p>
+            <p><b>Deadline:</b> {{ task.deadline }}</p>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <p>No tasks available.</p>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}
