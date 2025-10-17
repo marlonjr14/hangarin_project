@@ -1,8 +1,13 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 from tasks.views import HomePageView
+from allauth.account.views import LoginView
 
 urlpatterns = [
+    path("accounts/", include("allauth.urls")),  # allauth routes 
+
+    path('', views.DashboardView.as_view(), name='dashboard'),
+
     path("", HomePageView.as_view(), name="home"),
     path('tasks/', views.TaskListView.as_view(), name='task-list'),
     path('tasks/add/', views.TaskCreateView.as_view(), name='task-add'),
