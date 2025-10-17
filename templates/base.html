@@ -1,71 +1,78 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>{% block title %}Hangarin | Task & To-Do Manager{% endblock %}</title>
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no" name="viewport" />
 
-    <!-- ✅ CSS Files -->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>{% block title %}Hangarin{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, shrink-to-fit=no" />
+    <!-- ===== CSS ===== -->
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700,800,900">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:300,400,600,700,800,900">
     <link rel="stylesheet" href="{% static 'css/ready.css' %}">
     <link rel="stylesheet" href="{% static 'css/demo.css' %}">
 </head>
 
 <body>
     <div class="wrapper">
-        <!-- ✅ HEADER -->
+        <!-- ========== HEADER ========== -->
         <div class="main-header">
             <div class="logo-header">
-                <a href="{% url 'home' %}" class="logo">Hangarin</a>
-                <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">
+                <a href="{% url 'home' %}" class="logo fw-bold">Hangarin</a>
+                <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse"
+                    data-target="collapse" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <button class="topbar-toggler more"><i class="la la-ellipsis-v"></i></button>
             </div>
 
+            <!-- ===== Top Navbar ===== -->
             <nav class="navbar navbar-header navbar-expand-lg">
                 <div class="container-fluid">
                     <form class="navbar-left navbar-form nav-search mr-md-3">
                         <div class="input-group">
-                            <input type="text" placeholder="Search ..." class="form-control">
+                            <input type="text" placeholder="Search..." class="form-control">
                             <div class="input-group-append">
-                                <span class="input-group-text"><i class="la la-search search-icon"></i></span>
+                                <span class="input-group-text"><i class="la la-search"></i></span>
                             </div>
                         </div>
                     </form>
 
                     <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
+                        <li class="nav-item dropdown hidden-caret">
+                            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+                                <i class="la la-bell"></i>
+                                <span class="notification">2</span>
+                            </a>
+                            <ul class="dropdown-menu notif-box">
+                                <li>
+                                    <div class="dropdown-title">You have 2 notifications</div>
+                                </li>
+                                <li><a class="see-all" href="#">See all <i class="la la-angle-right"></i></a></li>
+                            </ul>
+                        </li>
+
                         <li class="nav-item dropdown">
-                            <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
-                                <img src="{% static 'img/profile.jpg' %}" alt="user-img" width="36" class="img-circle">
-                                <span>{{ user.username|default:"Guest" }}</span>
+                            <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#">
+                                <img src="{% static 'img/profile.jpg' %}" width="36" class="img-circle">
+                                <span>Tester</span>
                             </a>
                             <ul class="dropdown-menu dropdown-user">
                                 <li>
                                     <div class="user-box">
                                         <div class="u-img"><img src="{% static 'img/profile.jpg' %}" alt="user"></div>
                                         <div class="u-text">
-                                            <h4>{{ user.get_full_name|default:user.username }}</h4>
-                                            <p class="text-muted">{{ user.email }}</p>
-                                            <a href="#" class="btn btn-rounded btn-danger btn-sm">View Profile</a>
+                                            <h4>Tester</h4>
+                                            <p class="text-muted">tester@hangarin.com</p>
                                         </div>
                                     </div>
                                 </li>
                                 <div class="dropdown-divider"></div>
-                                {% if user.is_authenticated %}
-                                    <form method="post" action="{% url 'logout' %}" style="display:inline;">
-                                        {% csrf_token %}
-                                        <button type="submit" class="dropdown-item text-danger">
-                                            <i class="fa fa-power-off"></i> Logout
-                                        </button>
-                                    </form>
-                                {% else %}
-                                    <a class="dropdown-item" href="{% url 'login' %}">
-                                        <i class="fa fa-sign-in"></i> Login
-                                    </a>
-                                {% endif %}
+                                <a class="dropdown-item" href="#"><i class="ti-user"></i> Profile</a>
+                                <a class="dropdown-item" href="#"><i class="ti-settings"></i> Settings</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#"><i class="fa fa-power-off"></i> Logout</a>
                             </ul>
                         </li>
                     </ul>
@@ -73,109 +80,75 @@
             </nav>
         </div>
 
-        <!-- ✅ SIDEBAR -->
+        <!-- ========== SIDEBAR ========== -->
         <div class="sidebar">
             <div class="scrollbar-inner sidebar-wrapper">
                 <div class="user">
                     <div class="photo">
-                        <img src="{% static 'img/profile.jpg' %}" alt="User Photo">
+                        <img src="{% static 'img/profile.jpg' %}">
                     </div>
                     <div class="info">
-                        <a data-toggle="collapse" href="#userMenu" aria-expanded="true">
-                            <span>
-                                {{ user.username|default:"Guest" }}
-                                <span class="user-level">{% if user.is_superuser %}Administrator{% else %}User{% endif %}</span>
-                                <span class="caret"></span>
-                            </span>
-                        </a>
-                        <div class="collapse in" id="userMenu">
-                            <ul class="nav">
-                                <li><a href="#"><span class="link-collapse">My Profile</span></a></li>
-                                <li><a href="#"><span class="link-collapse">Settings</span></a></li>
-                                <li>
-                                    {% if user.is_authenticated %}
-                                    <form method="post" action="{% url 'logout' %}">
-                                        {% csrf_token %}
-                                        <button type="submit" class="btn btn-link text-danger link-collapse pl-0">
-                                            <i class="fa fa-power-off"></i> Logout
-                                        </button>
-                                    </form>
-                                    {% endif %}
-                                </li>
-                            </ul>
-                        </div>
+                        <span>Tester</span>
+                        <span class="user-level">User</span>
                     </div>
                 </div>
 
                 <ul class="nav">
-                    <li class="nav-item active">
+                    <li class="nav-item {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
                         <a href="{% url 'home' %}">
-                            <i class="la la-dashboard"></i>
+                            <i class="la la-home"></i>
                             <p>Dashboard</p>
                         </a>
                     </li>
-
-                    <!-- 🟢 Categories -->
-                    <li class="nav-item">
-                        <a data-toggle="collapse" href="#categoryMenu" aria-expanded="false">
-                            <i class="la la-folder"></i>
-                            <p>Categories</p>
-                            <span class="caret"></span>
+                    <li class="nav-item {% if request.resolver_match.url_name == 'task-list' %}active{% endif %}">
+                        <a href="{% url 'task-list' %}">
+                            <i class="la la-list"></i>
+                            <p>Tasks</p>
                         </a>
-                        <div class="collapse" id="categoryMenu">
-                            <ul class="nav pl-3">
-                                {% for category in categories %}
-                                    <li><a href="#">{{ category.name }}</a></li>
-                                {% empty %}
-                                    <li><a href="#">No categories yet</a></li>
-                                {% endfor %}
-                            </ul>
-                        </div>
                     </li>
-
-                    <!-- 🟡 Priorities -->
-                    <li class="nav-item">
-                        <a data-toggle="collapse" href="#priorityMenu" aria-expanded="false">
+                    <li class="nav-item {% if request.resolver_match.url_name == 'note-list' %}active{% endif %}">
+                        <a href="{% url 'note-list' %}">
+                            <i class="la la-copy"></i>
+                            <p>Notes</p>
+                        </a>
+                    </li>
+                    <li class="nav-item {% if request.resolver_match.url_name == 'category-list' %}active{% endif %}">
+                        <a href="{% url 'category-list' %}">
+                            <i class="la la-tags"></i>
+                            <p>Categories</p>
+                        </a>
+                    </li>
+                    <li class="nav-item {% if request.resolver_match.url_name == 'priority-list' %}active{% endif %}">
+                        <a href="{% url 'priority-list' %}">
                             <i class="la la-flag"></i>
                             <p>Priorities</p>
-                            <span class="caret"></span>
                         </a>
-                        <div class="collapse" id="priorityMenu">
-                            <ul class="nav pl-3">
-                                {% for priority in priorities %}
-                                    <li><a href="#">{{ priority.name }}</a></li>
-                                {% empty %}
-                                    <li><a href="#">No priorities yet</a></li>
-                                {% endfor %}
-                            </ul>
-                        </div>
                     </li>
-
-                    <li class="nav-item"><a href="#"><i class="la la-sticky-note"></i><p>Notes</p></a></li>
-                    <li class="nav-item"><a href="#"><i class="la la-tasks"></i><p>Tasks</p></a></li>
-                    <li class="nav-item"><a href="#"><i class="la la-list"></i><p>Subtasks</p></a></li>
+                    <li class="nav-item {% if request.resolver_match.url_name == 'subtask-list' %}active{% endif %}">
+                        <a href="{% url 'subtask-list' %}">
+                            <i class="la la-tasks"></i>
+                            <p>Subtasks</p>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
 
-        <!-- ✅ MAIN PANEL -->
+        <!-- ========== MAIN PANEL ========== -->
         <div class="main-panel">
             <div class="content">
                 <div class="container-fluid">
-                    {% block content %}
-                    {% endblock %}
+                    {% block content %}{% endblock %}
                 </div>
             </div>
-
-    
         </div>
     </div>
 
-    <!-- ✅ JS Files -->
+    <!-- ===== JS Files ===== -->
     <script src="{% static 'js/core/jquery.3.2.1.min.js' %}"></script>
-    <script src="{% static 'js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js' %}"></script>
     <script src="{% static 'js/core/popper.min.js' %}"></script>
     <script src="{% static 'js/core/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js' %}"></script>
     <script src="{% static 'js/plugin/chartist/chartist.min.js' %}"></script>
     <script src="{% static 'js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js' %}"></script>
     <script src="{% static 'js/plugin/bootstrap-notify/bootstrap-notify.min.js' %}"></script>
@@ -186,4 +159,5 @@
     <script src="{% static 'js/plugin/jquery-scrollbar/jquery.scrollbar.min.js' %}"></script>
     <script src="{% static 'js/ready.min.js' %}"></script>
 </body>
+
 </html>
