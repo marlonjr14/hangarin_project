@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "widget_tweaks",   
     "tasks",
+    "pwa",
 
     'django.contrib.sites',    
     'allauth', 
@@ -154,8 +155,41 @@ LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = '/accounts/login/'
 SITE_ID = 1
 ACCOUNT_SIGNUP_FORM_CLASS = None
-ACCOUNT_LOGOUT_REDIRECT_URL = '/'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
 ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_LOGIN_METHODS = {"username", "email"}
 ACCOUNT_SIGNUP_FIELDS = ["username*", "email*", "password1*", "password2*"]
 ACCOUNT_UNIQUE_EMAIL = True
+
+# --- Progressive Web App Settings --- 
+PWA_APP_NAME = 'ProjectSite' 
+PWA_APP_DESCRIPTION = "A Progressive Web App version of ProjectSite" 
+PWA_APP_THEME_COLOR = '#0A0A0A' 
+PWA_APP_BACKGROUND_COLOR = '#FFFFFF' 
+PWA_APP_DISPLAY = 'standalone' 
+PWA_APP_SCOPE = '/' 
+PWA_APP_ORIENTATION = 'portrait' 
+PWA_APP_START_URL = '/' 
+PWA_APP_STATUS_BAR_COLOR = 'default' 
+PWA_APP_ICONS = [ 
+    { 
+        'src': '/static/img/icon-192.png', 
+        'sizes': '192x192' 
+    }, 
+    { 
+        'src': '/static/img/icon-512.png', 
+        'sizes': '512x512' 
+    } 
+] 
+PWA_APP_ICONS_APPLE = [ 
+    { 
+        'src': '/static/img/icon-192.png', 
+        'sizes': '192x192' 
+    }, 
+    { 
+        'src': '/static/img/icon-512.png', 
+        'sizes': '512x512' 
+    } 
+] 
+PWA_APP_DIR = 'ltr' 
+PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/js', 'serviceworker.js')

@@ -4,6 +4,7 @@ from tasks.views import HomePageView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+     path('', include('pwa.urls')),  
     path("accounts/", include("allauth.urls")),  # allauth routes 
     path("accounts/", include("django.contrib.auth.urls")),
     path("", HomePageView.as_view(), name="home"),
